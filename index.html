@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encode/Decode Tool</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+body{background:#0f172a;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px;color:white}
+.card{background:#1e293b;padding:25px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.4);width:100%;max-width:400px}
+h2{text-align:center;margin-bottom:15px;color:#8b5cf6}
+textarea{width:100%;height:80px;padding:10px;background:#0f172a;border:1px solid #334155;color:white;border-radius:8px;resize:none;margin-bottom:10px}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+button{padding:8px;border:none;border-radius:6px;cursor:pointer;color:white;font-weight:500}
+.b64e{background:#10b981}.b64d{background:#ef4444}
+.urle{background:#3b82f6}.urld{background:#f59e0b}
+.output{background:#0f172a;padding:10px;border-radius:8px;min-height:50px;font-family:monospace;font-size:14px;color:#94a3b8;word-break:break-all;position:relative}
+.copy{position:absolute;top:5px;right:5px;background:#334155;border:none;color:white;padding:3px 6px;border-radius:4px;cursor:pointer;font-size:11px}
+</style>
+</head>
+<body>
+<div class="card">
+  <h2>🔐 Encode/Decode</h2>
+  <textarea id="in" placeholder="Matn kiriting..."></textarea>
+  <div class="btns">
+    <button class="b64e" onclick="process('btoa')">Base64 Encode</button>
+    <button class="b64d" onclick="process('atob')">Base64 Decode</button>
+    <button class="urle" onclick="process('encode')">URL Encode</button>
+    <button class="urld" onclick="process('decode')">URL Decode</button>
+  </div>
+  <div class="output"><span id="out"></span><button class="copy" onclick="copy()">📋</button></div>
+</div>
+<script>
+function process(fn){
+  const v=document.getElementById('in').value.trim();if(!v)return;
+  try{
+    let res;
+    if(fn==='btoa')res=btoa(unescape(encodeURIComponent(v)));
+    else if(fn==='atob')res=decodeURIComponent(escape(atob(v)));
+    else if(fn==='encode')res=encodeURIComponent(v);
+    else res=decodeURIComponent(v);
+    document.getElementById('out').textContent=res;
+  }catch(e){alert('Xato: '+e.message)}
+}
+function copy(){navigator.clipboard.writeText(document.getElementById('out').textContent);alert('Nusxalandi!')}
+</script>
+</body>
+</html>
